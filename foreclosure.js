@@ -40,5 +40,8 @@ function loan() {
       return account.foreclosed;
     }
   };
+}
+
+function borrower(loan){
 
 }

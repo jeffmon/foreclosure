@@ -1,78 +1,82 @@
 'use strict';
 
-
 var steve;
 var stevesLoan;
 var month = 0;
 var monthsUntilEvicted;
 
-function loan() {
+function loan() { //start loan function
   var account = {
-    borrowed : 550000,
-    balance : 286000,
-    monthlyPayment : 1700,
-    defaulted : 0,
-    defaultsToForeclose : 5,
-    foreclosed : false
+    borrowed: 550000,
+    balance: 286000,
+    monthlyPayment: 1700,
+    defaulted: 0,
+    defaultsToForeclose: 5,
+    forclosed: false
+
   };
 
-  var missPayment = function() {
+  function missPayment() {
     account.defaulted++;
-    if (account.defaulted >= account.defaultsToForeclose) {
-      account.foreclosed = true;
+    if(account.defaulted >= account.defaultsToForeclose) {
+      account.forclosed = true;
     }
-  };
+
+  }
 
   return {
-    getBalance : function() {
+    getBalance: function() {
       return account.balance;
     },
-    receivePayment : function(amount) {
-      if (amount < account.monthlyPayment) {
+    receivePayment: function(amount) {
+      if(amount < account.monthlyPayment) {
         missPayment();
-      }else {
-        account.balance -= amount;
       }
+      account.balance = account.balance-amount;
     },
-    getMonthlyPayment : function() {
+    getMonthlyPayment: function() {
       return account.monthlyPayment;
     },
-    isForeClosed : function() {
-      return account.foreclosed;
+    isForeclosed: function() {
+      return account.forclosed;
     }
   };
-}
+} // end loan function
 
-function borrower(loan) {
+function borrower(loan) { //start borrower function
   var account = {
-    monthlyIncome : 1350,
-    funds : 2800,
-    loan : loan
+    montlyIncome: 1350,
+    funds: 2800,
+    loan: loan
   };
 
   return {
-    getFunds : function() {
+    getFunds: function() {
       return account.funds;
     },
-    makePayment : function() {
-      if (account.funds > loan.getMonthlyPayment()) {
+    makePayment: function() {
+      if(account.funds > loan.getMonthlyPayment()) {
         account.funds -= loan.getMonthlyPayment();
-        loan().receivePayment(loan.getMonthlyPayment());
+        loan.receivePayment(loan.getMonthlyPayment());
       } else {
         loan.receivePayment(account.funds);
         account.funds = 0;
       }
     },
-    payDay : function() {
-      account.funds += account.monthlyIncome;
+    payDay: function() {
+      account.funds += account.montlyIncome;
     }
   };
-}
+} //end borrower function
 
 stevesLoan = loan();
+
 steve = borrower(stevesLoan);
-while (stevesLoan.isForeClosed() === false) {
+
+while(stevesLoan.isForeclosed() === false) {
   steve.payDay();
   steve.makePayment();
-  month++;
+  month ++;
 }
+
+monthsUntilEvicted = month;

@@ -29,14 +29,14 @@ function loan() {
     receivePayment : function(amount) {
       if (amount < account.monthlyPayment) {
         missPayment();
-      }else {
-        account.balance -= amount;
       }
+      account.balance -= amount;
+
     },
     getMonthlyPayment : function() {
       return account.monthlyPayment;
     },
-    isForeClosed : function() {
+    isForeclosed : function() {
       return account.foreclosed;
     }
   };
@@ -68,14 +68,13 @@ function borrower(loan) {
   };
 }
 
-
 stevesLoan = loan();
 
 steve = borrower(stevesLoan);
-while (stevesLoan.isForeClosed() === false) {
+while (stevesLoan.isForeclosed() === false) {
   steve.payDay();
   steve.makePayment();
   month++;
 }
 
-monthsUntilEvicted = 13;
+monthsUntilEvicted = month;

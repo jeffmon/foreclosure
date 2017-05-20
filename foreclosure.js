@@ -1,7 +1,6 @@
 'use strict';
 
 
-
 var steve;
 var stevesLoan;
 var month = 0;
@@ -44,7 +43,7 @@ function loan() {
   };
 }
 
-function borrower(loan){
+function borrower(loan) {
   var account = {
     monthlyIncome : 1350,
     funds : 2800,
@@ -52,20 +51,28 @@ function borrower(loan){
   };
 
   return {
-    getFunds : function(){
+    getFunds : function() {
       return account.funds;
     },
-    makePayment : function(){
-      if(account.funds > loan().monthlyPayment()){
-        account.funds -= loan().monthlyPayment();
-        loan().receivePayment(loan().getMonthlyPayment());
+    makePayment : function() {
+      if (account.funds > loan.getMonthlyPayment()) {
+        account.funds -= loan.getMonthlyPayment();
+        loan().receivePayment(loan.getMonthlyPayment());
       } else {
-        loan().receivePayment(account.funds);
+        loan.receivePayment(account.funds);
         account.funds = 0;
       }
     },
-    payDay : function(){
+    payDay : function() {
       account.funds += account.monthlyIncome;
     }
   };
+}
+
+stevesLoan = loan();
+steve = borrower(stevesLoan);
+while (stevesLoan.isForeClosed() === false) {
+  steve.payDay();
+  steve.makePayment();
+  month++;
 }

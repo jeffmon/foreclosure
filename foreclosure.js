@@ -64,6 +64,8 @@ function borrower(loan){
         account.funds = 0;
       }
     },
-
+    payDay : function(){
+      account.funds += account.monthlyIncome;
+    }
   };
 }

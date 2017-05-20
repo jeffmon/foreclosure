@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var steve;
 var stevesLoan;
 var month = 0;
@@ -43,5 +45,25 @@ function loan() {
 }
 
 function borrower(loan){
+  var account = {
+    monthlyIncome : 1350,
+    funds : 2800,
+    loan : loan
+  };
 
+  return {
+    getFunds : function(){
+      return account.funds;
+    },
+    makePayment : function(){
+      if(account.funds > loan().monthlyPayment()){
+        account.funds -= loan().monthlyPayment();
+        loan().receivePayment(loan().getMonthlyPayment());
+      } else {
+        loan().receivePayment(account.funds);
+        account.funds = 0;
+      }
+    },
+
+  };
 }
